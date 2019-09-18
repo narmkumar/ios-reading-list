@@ -19,16 +19,19 @@ class BookController {
         return documents.appendingPathComponent("ReadingList.plist")
     }
     
-    /// Need help
+    /// For the .filter higher order function "$0" calls the first input parameter (a way to loop over arrays and dictionaries)
     
      var readBooks: [Book] {
+        return books.filter{ $0.hasBeenRead}
     }
     
-    var unreadbooks: [Book] {
-        
+    var unreadBooks: [Book] {
+        return books.filter { !$0.hasBeenRead }
     }
     
-    /// Need help
+    var delegate: ReadingListTableViewController?
+
+    //
     
     func saveToPersistentStore() {
         guard let url = readingListURL else { return }
@@ -45,17 +48,16 @@ class BookController {
     
     
     func loadFromPersistentStore() {
-        do {
-            let fileManager = FileManager.default
-            guard let url = readingListURL,
+        let fileManager = FileManager.default
+        guard let url = readingListURL,
             fileManager.fileExists(atPath: url.path) else { return }
-           let booksData = try Data(contentsOf: url)
+        do {
+            let booksData = try Data(contentsOf: url)
             let decodeBooks = PropertyListDecoder()
             books = try decodeBooks.decode([Book].self, from: booksData)
         } catch  {
             print("Error loading books data: \(error)")
         }
-    
     }
     
     @discardableResult func createBook(bookTitle title: String, reason reasonToRead: String, read hasBeenRead: Bool = false) -> Book {
@@ -64,5 +66,27 @@ class BookController {
         saveToPersistentStore()
         return book
     }
+    
+    func deleteBook(book: Book) {
+        if let index = books.firstIndex(of: book) {
+            books.remove(at: index)
+        }
+        saveToPersistentStore()
+    }
 
+    
+    func updateHasBeenRead(for book: Book) {
+        guard let index = books.index(of: book) else { return }
+        books[index].hasBeenRead.toggle()
+        }
+        
+    
+    // this update book takes the var newBook and assigns it to the values from the books array, the title and reason to read being the main updates
+    func updateBook(book: Book, newTitle: String, newReasontoRead: String) {
+        guard let index = books.firstIndex(of: book) else { return }
+        var newBook = books[index]
+        newBook.title = newTitle
+        newBook.reasonToRead = newReasontoRead
+        books[index] = newBook
+        }
 }
