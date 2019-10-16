@@ -11,20 +11,22 @@ import Foundation
 
 class BookController {
     
-    var books: [Book] = []
+    private(set) var books: [Book] = []
     
     // go over this
-//    var readBooks: [Book] {
-//
-//    }
-//
-//    // go over this
-//    var unreadBooks: [Book] {
-//
-//    }
+    var readBooks: [Book] {
+        books.filter() {$0.hasBeenRead}
+
+    }
+
+    // go over this
+    var unreadBooks: [Book] {
+        books.filter() {!$0.hasBeenRead}
+
+    }
     
     
-    func createBook(named name: String, reasonToRead reason: String, hasBeenRead read: Bool) -> Book {
+    @discardableResult func createBook(named name: String, reasonToRead reason: String, hasBeenRead read: Bool) -> Book {
         let newBook = Book(title: name, reasonToRead: reason, hasBeenRead: read)
         books.append(newBook)
         saveToPersistentStore()
