@@ -11,7 +11,7 @@ import Foundation
 
 class BookController {
     
-    private(set) var books: [Book] = []
+  private(set) var books: [Book] = []
     
     // go over this
     var readBooks: [Book] {
@@ -26,29 +26,30 @@ class BookController {
     }
     
     
-    @discardableResult func createBook(named name: String, reasonToRead reason: String, hasBeenRead read: Bool) -> Book {
+    func createBook(named name: String, reasonToRead reason: String, hasBeenRead read: Bool) {
         let newBook = Book(title: name, reasonToRead: reason, hasBeenRead: read)
         books.append(newBook)
         saveToPersistentStore()
-        return newBook
     }
     
     // can index equal any "location" of book in the array? rather than just first index?
     func deleteBook(_ book: Book) {
         if let index = books.firstIndex(of: book) {
             books.remove(at: index)
+            saveToPersistentStore()
         }
-        saveToPersistentStore()
+        
     }
     
     // go over this
     func updateHasBeenRead(for book: Book) {
-        if !book.hasBeenRead {
-            book.hasBeenRead
-        } else {
-            !book.hasBeenRead
+        if let index = books.firstIndex(of: book) {
+            var book = books[index]
+            book.hasBeenRead.toggle()
+            books[index] = book
+            saveToPersistentStore()
         }
-        
+ 
     }
     
     // go over this

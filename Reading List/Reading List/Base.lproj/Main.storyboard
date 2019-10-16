@@ -112,8 +112,16 @@
                         <viewLayoutGuide key="safeArea" id="u2a-LI-Qln"/>
                     </view>
                     <navigationItem key="navigationItem" title="Title" id="UMq-RH-gje">
-                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="save" id="H2v-tP-Tf7"/>
+                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="save" id="H2v-tP-Tf7">
+                            <connections>
+                                <action selector="saveTapped:" destination="87X-NM-I51" id="hXP-l8-cZ7"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="bookTextField" destination="fsi-yx-inw" id="VhR-6S-Oi5"/>
+                        <outlet property="reasonsTextField" destination="BP3-fe-1h0" id="d2X-hd-HUr"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oeG-Qn-AqV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
