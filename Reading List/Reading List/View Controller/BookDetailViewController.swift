@@ -14,38 +14,40 @@ class BookDetailViewController: UIViewController {
     
     @IBOutlet weak var reasonsTextField: UITextView!
     
-    var book: Book? {
-        didSet {
-                updateViews()
-            }
-        }
+    var book: Book?
+    
+    var bookController: BookController?
+
     
     func updateViews() {
-        if let book: Book = book{
-            print(book.title)
-                reasonsTextField.text = book.reasonToRead
-            navigationItem.title = book.title
-        } else {
-            navigationItem.title = "Add new books"
-        }
-    }
+        guard let title = book?.title, let reason = book?.reasonToRead else { return }
+        
+            reasonsTextField.text = reason
+            navigationItem.title = title
+            bookTextField.text = title
     
-    var bookController: BookController? 
+//            navigationItem.title = "Add new books"
+        }
+    
 
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        updateViews()
 
         // Do any additional setup after loading the view.
     }
     
     @IBAction func saveTapped(_ sender: UIBarButtonItem) {
-        guard let bookTitle = bookTextField.text, !bookTitle.isEmpty else { return }
-        guard let reasons = reasonsTextField.text, !reasons.isEmpty else { return }
+        guard let bookTitle = bookTextField.text, !bookTitle.isEmpty ,
+              let reasons = reasonsTextField.text, !reasons.isEmpty else { return }
         
-                
-        bookController?.createBook(named: bookTitle, reasonToRead: reasons, hasBeenRead: false)
-        navigationController?.popViewController(animated: true)
+        if let book = book {
+            bookController?.updateHasBeenRead(for: book)
+        } else {
+            bookController?.createBook(named: bookTitle, reasonToRead: reasons, hasBeenRead: false)
+        }
+            navigationController?.popViewController(animated: true)
 
         
         

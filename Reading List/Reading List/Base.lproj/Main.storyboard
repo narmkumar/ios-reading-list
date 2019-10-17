@@ -75,7 +75,7 @@
             </objects>
             <point key="canvasLocation" x="1715.9420289855075" y="129.91071428571428"/>
         </scene>
-        <!--Title-->
+        <!--Add New Title-->
         <scene sceneID="u2z-2R-KEy">
             <objects>
                 <viewController id="87X-NM-I51" customClass="BookDetailViewController" customModule="Reading_List" customModuleProvider="target" sceneMemberID="viewController">
@@ -111,7 +111,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="u2a-LI-Qln"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Title" id="UMq-RH-gje">
+                    <navigationItem key="navigationItem" title="Add New Title" id="UMq-RH-gje">
                         <barButtonItem key="rightBarButtonItem" style="plain" systemItem="save" id="H2v-tP-Tf7">
                             <connections>
                                 <action selector="saveTapped:" destination="87X-NM-I51" id="hXP-l8-cZ7"/>

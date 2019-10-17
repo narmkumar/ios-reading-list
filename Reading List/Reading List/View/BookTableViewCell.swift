@@ -36,9 +36,9 @@ class BookTableViewCell: UITableViewCell {
         bookTitle.text = book.title
         // setImage.(UIimage) method helps pull the images from your assets to different options (what are image literals)
         if book.hasBeenRead {
-            hasBeenReadButton.setImage(UIImage(named: "checked"), for: .normal)
-        } else {
             hasBeenReadButton.setImage(UIImage(named: "unchecked"), for: .normal)
+        } else {
+            hasBeenReadButton.setImage(UIImage(named: "checked"), for: .normal)
         }
     
     

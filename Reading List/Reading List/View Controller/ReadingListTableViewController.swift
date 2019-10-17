@@ -24,7 +24,6 @@ class ReadingListTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 2
     }
 
@@ -55,9 +54,17 @@ class ReadingListTableViewController: UITableViewController {
 
         return cell
     }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section == 0 {
+            return "Unread Books"
+        } else {
+            return "Read Books"
+        }
+    }
 
 
-    // Override to support editing the table view.
+    // NEED TO ADD DELETE FUNCTIONALITY
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
@@ -73,14 +80,19 @@ class ReadingListTableViewController: UITableViewController {
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "AddSegue" {
-            if let bookDetailVC = segue.destination as? BookDetailViewController{
+            guard let bookDetailVC = segue.destination as? BookDetailViewController else { return }
+                bookDetailVC.bookController = bookController
+    
+        } else if segue.identifier == "DetailSegue" {
+            guard let bookDetailVC = segue.destination as? BookDetailViewController,
+                let indexPath = tableView.indexPathForSelectedRow else { return }
+                bookDetailVC.book = bookFor(indexPath: indexPath)
                 bookDetailVC.bookController = bookController
             }
         }
         
     }
 
-}
 
 
 extension ReadingListTableViewController: BookTableViewCellDelegate {
@@ -88,7 +100,7 @@ extension ReadingListTableViewController: BookTableViewCellDelegate {
         guard let book = cell.book else { return }
         bookController.updateHasBeenRead(for: book)
         guard let indexPath = tableView.indexPath(for: cell) else { return }
-        tableView.reloadRows(at: [indexPath], with: .automatic)
+        tableView.reloadData()
     }
     
     
